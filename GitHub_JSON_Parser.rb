@@ -34,7 +34,13 @@ module Github
     def prefferable_languages
       rep = repos.map { |r| r[:language] }.compact
       res = Hash[rep.uniq.map { |m| [m, rep.count(m)] }]
-      res.delete_if { |k, v| v < res.values.max }.keys
+      res.delete_if { |_, v| v < res.values.max }.keys
+    end
+
+    def languages
+      rep = repos.map { |r| r[:language] }.compact
+      rep.inject(Hash.new{ 0 }){ |result, i| result[i] += 1 ; result }
+      #rep.each { |lang, count| "#{lang}: #{count}" }
     end
 
     #Class methods
@@ -49,7 +55,7 @@ module Github
   end
 end
 
-# solandmedotru = Github::User.new('solandmedotru')
+ solandmedotru = Github::User.new('dapo')
 # puts solandmedotru.id
-# puts solandmedotru.prefferable_languages
+puts solandmedotru.languages
 # puts solandmedotru.total_repos_size
