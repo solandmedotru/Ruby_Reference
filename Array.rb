@@ -91,3 +91,68 @@ array = [1, 2, 4]
 array.length > 0  #=> true
 array.empty?      #=> false
 array.any?        #=> true
+
+# ************************************
+
+# Работа с итераторами массива
+
+# Изменение всех элементов массива ( map )
+array = ["шифровка", "Штирлица", "в", "Центр", "секретно"]
+array.map{ 0 }                                             #=> [0, 0, 0, 0, 0]
+
+array = [1, 2, 3, 4, 5]
+array.map{ |elem| elem ** 2 } #=> [1, 4, 9, 16, 25]
+
+array = [1, 2, 3, 4, 5]
+array.map{ |elem| elem**2 } #=> [1, 4, 9, 16, 25]
+array                       #=> [1, 2, 3, 4, 5] — неизменный первый массив
+
+array = [1, 2, 3, 4, 5]
+array = array.map{ |elem| elem**2 } #=> [1, 4, 9, 16, 25]
+array                               #=> [1, 4, 9, 16, 25]
+
+# Отбор элементов по признаку ( find_all )
+array = [1, 2, 3, 4, 5]
+array.find_all{ |elem| elem % 2 == 0 } #=> [2, 4]
+
+#Все ли элементы удовлетворяют условию?
+array = [1, 2, 2, 3]
+array.find_all{ |elem| elem <= 2 }.size.zero? #=> false
+
+#проверяем на чётность
+(elem % 2).zero?
+(elem & 1).zero?
+(elem[0]).zero?  # Этот вариант круче всех
+
+# Суммирование/ произведение/ агрегация элементов ( inject )
+array = [1, 2, 3, 4, 5]
+array.inject(0){ |result, elem| result + elem } #=> 15
+
+array = [1, 2, 3, 4, 5]
+array.inject(1){ |result, elem| result * elem } #=> 120
+
+#Все ли элементы удовлетворяют условию?
+array = [1, 2, 2, 3]
+array.inject(true){ |result, elem| result && (elem > 2) } #=> false
+
+#Хотя бы один элемент удовлетворяет условию?
+array = [1, 2, 2, 3]
+array.inject(false){ |result, elem| result || (elem > 2) } #=> true
+
+# Разбиение надвое ( partition )
+array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+array.partition{ |x| (x % 3).zero? } #=> [[3, 6, 9], [1, 2, 4, 5, 7, 8]]
+
+array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+one, two = array.partition{ |x| (x % 3).zero? }
+one                                             #=> [3, 6, 9]
+two                                             #=> [1, 2, 4, 5, 7, 8]
+
+#Логические итераторы
+# Все ли элементы удовлетворяют условию? ( all? )
+array = [1, 2, 2, 3]
+array.all?{ |elem| elem > 2 } #=> false
+
+#Хотя бы один элемент удовлетворяет условию? ( any? )
+array = [1, 2, 2, 3]
+array.any?{ |elem| elem > 2 } #=> true
